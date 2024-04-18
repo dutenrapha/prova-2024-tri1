@@ -1,0 +1,1 @@
+faça uma interface que decidirá uma emoção aleatoriamente, baseado em uma palavra
