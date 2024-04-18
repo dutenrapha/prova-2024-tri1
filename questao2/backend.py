@@ -31,7 +31,3 @@ class UserAnswers(BaseModel):
 async def submit_answers(user_answers: UserAnswers):
     score = sum(1 for i, answer in enumerate(user_answers.answers) if answer == questions[i].answer)
     return {"score": score, "total": len(questions)}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)

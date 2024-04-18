@@ -29,7 +29,41 @@ def main(page: ft.Page):
         if response.status_code == 200:
             items = response.json()
             for item in items:
-                task_list.controls.append(ft.ListTile(title=ft.Text(item['description'])))
+                item_row = ft.Row(
+                    children=[
+                        ft.ListTile(title=ft.Text(item['description'])),
+                        ft.Button(text="Edit", on_click=lambda _, item_id=item['id']: edit_task(page, item_id)),
+                        ft.Button(text="Delete", on_click=lambda _, item_id=item['id']: delete_task(page, item_id))
+                    ]
+                )
+                task_list.controls.append(item_row)
+        page.update()
+
+    # Função para editar tarefa
+    def edit_task(page, item_id):
+        new_description = ft.TextField(hint_text="Edit task", width=300)
+        confirm_button = ft.Button(text="Confirm", on_click=lambda _: confirm_edit(page, item_id, new_description))
+        page.add(new_description, confirm_button)
+        page.update()
+
+    def confirm_edit(page, item_id, new_description_field):
+        new_description = new_description_field.value.strip()
+        if new_description:
+            response = requests.put(f"http://localhost:8080/items/{item_id}", json={"description": new_description})
+            if response.status_code == 200:
+                page.remove(new_description_field)
+                update_tasks(page, task_list)
+            else:
+                page.snackbar_text = "Failed to edit item"
+        page.update()
+
+    # Função para deletar tarefa
+    def delete_task(page, item_id):
+        response = requests.delete(f"http://localhost:8080/items/{item_id}")
+        if response.status_code == 200:
+            update_tasks(page, task_list)
+        else:
+            page.snackbar_text = "Failed to delete item"
         page.update()
 
     # Adicionar elementos à página
