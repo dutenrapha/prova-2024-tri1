@@ -36,4 +36,4 @@ def main(page: ft.Page):
     page.add(input_text, submit_button, task_list)
     update_tasks(page, task_list)
 
-ft.app(target=main, port=8000)
+ft.app(target=main, port=8080)
