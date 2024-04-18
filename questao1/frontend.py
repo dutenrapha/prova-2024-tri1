@@ -29,8 +29,8 @@ def main(page: ft.Page):
         if response.status_code == 200:
             items = response.json()
             for item in items:
-                task_list.controls.append(ft.ListTile(title=ft.Text(item['description'])))
-        page.update()
+                task_list.controls.append(ft.Row(ft.ListTile(title=ft.Text(item['description'])),
+                ft.ElevatedButton(text="Delete", on_click=lambda _, item_id=index: delete_task(page, item_id))))
 
     # Adicionar elementos à página
     page.add(input_text, submit_button, task_list)
