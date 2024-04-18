@@ -22,14 +22,39 @@ def main(page: ft.Page):
                 page.snackbar_text = "Failed to add item"
         page.update()
 
+    # Função para deletar tarefa
+    def delete_task(page, task_list, item_id):
+        response = requests.delete(f"http://localhost:8080/items/{item_id}/")
+        if response.status_code == 200:
+            update_tasks(page, task_list)
+        else:
+            page.snackbar_text = "Failed to delete item"
+        page.update()
+        
+    def edit_task(page, task_list, item_id, new_description):
+        response = requests.put(f"http://localhost:8080/items/{item_id}/", json={"description": new_description})
+        if response.status_code == 200:
+            update_tasks(page, task_list)
+        else:
+            page.snackbar_text = "Failed to edit item"
+        page.update()
+
     # Função para atualizar a lista de tarefas
     def update_tasks(page, task_list):
         response = requests.get("http://localhost:8080/items/")
         task_list.controls.clear()
         if response.status_code == 200:
             items = response.json()
-            for item in items:
-                task_list.controls.append(ft.ListTile(title=ft.Text(item['description'])))
+            for index, item in enumerate(items):
+                task_list.controls.append(
+                    ft.ListTile(
+                        title=ft.Text(item['description']),
+                        trailing=ft.IconButton(
+                            icon="delete",
+                            on_click=lambda _, idx=index: delete_task(page, task_list, idx)  # Correção aqui
+                        )
+                    )
+                )
         page.update()
 
     # Adicionar elementos à página
