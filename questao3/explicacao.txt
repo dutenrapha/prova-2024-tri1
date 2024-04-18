@@ -1,0 +1,5 @@
+esse é um programa para o usuario digitar uma ação e o sistema mandar o preço atual dela:
+
+-utizamos a biblioteca yahoofinance, flet e flask
+-basicamente na parte do frontend ele irá adicionar a ação que ele quer
+-após isso o backend irá retornar o preço atual da ação para o usuário
