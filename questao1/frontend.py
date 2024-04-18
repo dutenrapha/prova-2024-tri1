@@ -9,7 +9,7 @@ def main(page: ft.Page):
     input_text = ft.TextField(hint_text="Add a new task", width=300, autofocus=True)
     submit_button = ft.ElevatedButton(text="Add", on_click=lambda _: add_task(page, input_text))
     task_list = ft.ListView(expand=True)
-    
+
     # Função para adicionar tarefa
     def add_task(page, input_text):
         description = input_text.value.strip()
@@ -22,14 +22,26 @@ def main(page: ft.Page):
                 page.snackbar_text = "Failed to add item"
         page.update()
 
+    # Função para deletar tarefa
+    def delete_task(item_id):
+        response = requests.delete(f"http://localhost:8080/items/{item_id}")
+        if response.status_code == 200:
+            update_tasks(page, task_list)
+        else:
+            page.snackbar_text = "Failed to delete item"
+        page.update()
+
     # Função para atualizar a lista de tarefas
     def update_tasks(page, task_list):
-        response = requests.get("http://localhost:8080/items/")
         task_list.controls.clear()
+        response = requests.get("http://localhost:8080/items/")
         if response.status_code == 200:
             items = response.json()
             for item in items:
-                task_list.controls.append(ft.ListTile(title=ft.Text(item['description'])))
+                delete_button = ft.ElevatedButton(text="Delete", on_click=lambda _, item_id=item["id"]: delete_task(item_id))
+                task_list.controls.append(ft.ListTile(title=ft.Text(item['description']), trailing=delete_button))
+        else:
+            page.snackbar_text = "Failed to fetch tasks"
         page.update()
 
     # Adicionar elementos à página
