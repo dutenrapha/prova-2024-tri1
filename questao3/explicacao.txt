@@ -1,0 +1,2 @@
+nosso grupo utilizou css javascript e html
+nessa aplicação o usuário coloca um número e é devolvido o número colocado junto a uma mensagem
