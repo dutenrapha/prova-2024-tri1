@@ -1,0 +1,18 @@
+esse nosso codigo pega o valor de uma ação da bolsa em tempo real, atráves da biblioteca da YahooFinance 
+no qual o usuario digita uma açao que ele quiser e esse codigo retornará atraves de um get o valor da ação escolhida
+
+Rota para obter o preço da ação:
+"python
+Copy code
+@app.route("/getPrice", methods=["POST"])
+def getPrice():
+    symbol = request.form["symbol"]
+    yf = YahooFinance(symbol)
+    price = yf.price["regularMarketPrice"]
+    return f"Preço atual de {symbol}: {price:.2f}"
+    
+Define uma rota /getPrice que será acessada via método POST.
+Extrai o símbolo da ação enviado pelo formulário.
+Cria uma instância de YahooFinance com o símbolo da ação.
+Obtém o preço atual da ação usando yf.price["regularMarketPrice"].
+Retorna uma string formatada com o preço da ação.
