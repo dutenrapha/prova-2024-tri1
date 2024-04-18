@@ -1,0 +1,2 @@
+No código, foi utilizada um lista de tarefas aplicada no aplicativo, em que os responsáveis podem adicionar tarefas que 
+precisam ser feitas no decorrer do dia, de modo que não se confundam nem esqueçam de algo importante a ser feito.
