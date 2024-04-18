@@ -1,0 +1,1 @@
+O programa consiste no usuario digitar o nome de uma ação, ex:petr4. E a resposta ser o preço atual da mesma
