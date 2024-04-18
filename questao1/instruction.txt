@@ -1,0 +1,7 @@
+Abra um terminal e use os seguintes comandos:
+cd questao1
+uvicorn backend:app --reload --host 0.0.0.0 --port 8080
+
+Abra outro terminal e use os seguiuntes comandos:
+cd questao1
+python frontend.py
