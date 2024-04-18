@@ -37,3 +37,19 @@ def main(page: ft.Page):
     update_tasks(page, task_list)
 
 ft.app(target=main, port=8000)
+
+def delete_task(page, item_id):
+    response = requests.delete(f"http://localhost:8080/items/{item_id}")
+    if response.status_code == 200:
+        update_tasks(page, task_list)
+    else:
+        page.snackbar_text = "Failed to delete item"
+    page.update()
+
+for item in items:
+    task_list.controls.append(
+        ft.Row(
+            ft.ListTile(title=ft.Text(item['description'])),
+            ft.Button(text="Delete", on_click=lambda _, item_id=item['id']: delete_task(page, item_id))
+        )
+    )
