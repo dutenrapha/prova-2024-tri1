@@ -19,6 +19,22 @@ async def add_item(item: Item):
 async def get_items():
     return tasks
 
+@app.delete("/items/{item_id}")
+async def delete_item(item_id: int):
+    try:
+        del tasks[item_id]
+    except IndexError:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"message": "Item deleted successfully"}
+
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Item):
+    try:
+        tasks[item_id] = item
+    except IndexError:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"message": "Item updated successfully"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8080)
