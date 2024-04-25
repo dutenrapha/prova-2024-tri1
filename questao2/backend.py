@@ -25,7 +25,7 @@ questions = [
 
 @app.get("/", response_class=JSONResponse)
 async def display_quiz(request: Request):
-    return templates.TemplateResponse("quiz.html", {"request": request, "questions": questions})
+    return templates.TemplateResponse("quiz.html", {"request": request, "TESTE questions": questions})
 
 # @app.get("/questions/", response_model=List[Question])
 # async def get_questions():

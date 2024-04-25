@@ -33,7 +33,7 @@ async def read_tasks():
 async def update_task(task_id: int, task: Task):
     if 0 <= task_id < len(task_list):
         task_list[task_id] = task
-        return {"message": "Task updateed successfully"}
+        return {"message": "Task updateed TESTE successfully"}
     else:
         return {"error": "Task not found"}
 

@@ -77,7 +77,7 @@ class Task(ft.UserControl):
 class TodoApp(ft.UserControl):
     def build(self):
         self.new_task = ft.TextField(
-            hint_text="Oque precisa ser feito?", on_submit=self.add_clicked, expand=True
+            hint_text="Oque precisa ser TESTE feito?", on_submit=self.add_clicked, expand=True
         )
         self.tasks = ft.Column()
 
