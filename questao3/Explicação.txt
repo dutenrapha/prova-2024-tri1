@@ -1,0 +1,1 @@
+Com o arquivo app.py, no codigo selecionamos um arquivo de preferência, após salvar o arquivo, na API será confirmado o sucesso do envio do arquivo pelo "/sucess", caso não seja um arquivo das extensões possíveis, mostra erro do tipo 400, retornando "File not allowed"
