@@ -1,0 +1,1 @@
+print("Porque é necessário um venv em sua maquina?")

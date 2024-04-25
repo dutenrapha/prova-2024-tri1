@@ -1,0 +1,1 @@
+print("O venv é util para não haver conflito entre arquivos, então é criado um ambiente virtual para evitar conflito com bibliotecas instalada na maquina real e com alguma que será projeto novo, assim mantendo a codificação sem quebrar ou ter erro ")
