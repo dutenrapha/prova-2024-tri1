@@ -1,24 +1,49 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
+import uvicorn
 
 app = FastAPI()
 
-class Item(BaseModel):
-    description: str
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
-# Lista temporária para armazenar as tarefas
-tasks: List[Item] = []
+@app.get("/favicon.ico")
+async def favicon():
+    return {"message": "No favicon available"}, 404
 
-@app.post("/items/")
-async def add_item(item: Item):
-    tasks.append(item)
-    return {"message": "Item added successfully"}
 
-@app.get("/items/", response_model=List[Item])
-async def get_items():
-    return tasks
+class Task(BaseModel):
+    task_name: str
+    completed: bool = False
+
+task_list = []
+
+@app.post("/tasks/")
+async def create_task(task: Task):
+    task_list.append(task)
+    return task
+
+@app.get("/tasks/", response_model=List[Task])
+async def read_tasks():
+    return task_list
+
+@app.put("/tasks/{task_id}")
+async def update_task(task_id: int, task: Task):
+    if 0 <= task_id < len(task_list):
+        task_list[task_id] = task
+        return {"message": "Task updateed TESTE successfully"}
+    else:
+        return {"error": "Task not found"}
+
+@app.delete("/tasks/{task_id}")
+async def delete_task(task_id: int):
+    if 0 <= task_id < len(task_list):
+        del task_list[task_id]
+        return {"message": "Task deleted successfully"}
+    else:
+        return {"error": "Task not found"}
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="debug")

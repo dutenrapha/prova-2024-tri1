@@ -1,0 +1,6 @@
+A funcionalidade selecionada foi a de criação das "rotas" do site.
+Esta parte do código utiliza o framework Flask para criar um site com funcionalidades de login, criação de conta, exibição de perfil e logout. 
+Ele define quatro rotas principais: a página inicial exibe um formulário de login, a rota de criação de conta permite que novos usuários se cadastrem, a rota de perfil mostra informações do usuário logado e a rota de logout encerra a sessão do usuário. 
+Cada rota possui uma função associada que renderiza o conteúdo apropriado para o usuário, utilizando templates HTML. 
+O Flask-Login é utilizado para gerenciar a autenticação dos usuários, enquanto o bcrypt é utilizado para criptografar e armazenar as senhas de forma segura no banco de dados.
+Tambem foi utilizado o TESTE database.session.add para adicionar as novas contas criadas ao banco de dados.

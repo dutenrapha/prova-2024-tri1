@@ -1,8 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Form, Depends, HTTPException
+from fastapi.responses import  JSONResponse
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from typing import List, Optional
 
 app = FastAPI()
+templates = Jinja2Templates(directory="index.html")
+
 
 # Modelo de dados para uma pergunta
 class Question(BaseModel):
@@ -19,19 +23,27 @@ questions = [
     Question(text="What is the largest ocean on Earth?", options=["Atlantic", "Indian", "Arctic", "Pacific", "Southern"], answer=3)
 ]
 
-@app.get("/questions/", response_model=List[Question])
-async def get_questions():
-    return questions
+@app.get("/", response_class=JSONResponse)
+async def display_quiz(request: Request):
+    return templates.TemplateResponse("quiz.html", {"request": request, "TESTE questions": questions})
+
+# @app.get("/questions/", response_model=List[Question])
+# async def get_questions():
+#     return questions
 
 # Modelo para as respostas do usuário
 class UserAnswers(BaseModel):
     answers: List[Optional[int]]
 
-@app.post("/submit/")
-async def submit_answers(user_answers: UserAnswers):
-    score = sum(1 for i, answer in enumerate(user_answers.answers) if answer == questions[i].answer)
-    return {"score": score, "total": len(questions)}
+# Rota para enviar as respostas do usuário e calcular a pontuação
+@app.post("/submit/", response_class=JSONResponse)
+async def submit_answers(user_answers: str = Form(...)):
+    user_answers_list = [int(answer) for answer in user_answers.split(',')]
+    if len(user_answers_list) != len(questions):
+        raise HTTPException(status_code=400, detail="Número de respostas inválido")
+    score = sum(1 for i, answer in enumerate(user_answers_list) if answer == questions[i].answer)
+    return templates.TemplateResponse("result.html", {"score": score, "total": len(questions)})
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
